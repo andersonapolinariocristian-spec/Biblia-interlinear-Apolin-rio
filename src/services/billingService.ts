@@ -150,6 +150,6 @@ export function isUserPro(user: UserProfile | null): boolean {
     const expiry = new Date(user.proExpiresAt).getTime();
     return expiry > Date.now();
   } catch {
-    return true;
+    return false;
   }
 }
