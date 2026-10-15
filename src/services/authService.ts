@@ -1,5 +1,5 @@
 import type { User } from '@supabase/supabase-js';
-import type { UserProfile } from '../types/bible';
+import type { UserProfile, SubscriptionPlan } from '../types/bible';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 
 const ALLOWED_ROLES: UserProfile['role'][] = [
@@ -88,4 +88,29 @@ export async function signOutUser() {
 
 export function getSupabaseClient() {
   return supabase;
+}
+
+/** Load the authenticated profile and paid entitlement from the database. */
+export async function loadUserProfile(user: User): Promise<UserProfile> {
+  const profile = profileFromSupabaseUser(user);
+  if (!supabase) return profile;
+  const { data, error } = await supabase
+    .from('subscription_entitlements')
+    .select('plan, active, expires_at')
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  // If entitlement lookup fails, fail closed: do not grant Pro in the UI.
+  if (error || !data || !data.active) return profile;
+  const expiresAt = data.expires_at as string | null;
+  if (expiresAt && (!Number.isFinite(Date.parse(expiresAt)) || Date.parse(expiresAt) <= Date.now())) {
+    return profile;
+  }
+  const plan = data.plan as SubscriptionPlan;
+  return {
+    ...profile,
+    isPro: true,
+    plan,
+    proExpiresAt: expiresAt ?? undefined,
+  };
 }
