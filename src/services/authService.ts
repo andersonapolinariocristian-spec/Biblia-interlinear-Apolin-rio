@@ -71,7 +71,7 @@ export async function requestPasswordReset(email: string) {
     throw new Error('O Supabase ainda não está configurado.');
   }
   const redirectTo = typeof window !== 'undefined'
-    ? new URL('/redefinir-senha', window.location.origin).toString()
+    ? new URL(window.location.pathname, window.location.origin).toString()
     : undefined;
   const { error } = await supabase.auth.resetPasswordForEmail(
     email.trim().toLowerCase(),
