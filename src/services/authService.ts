@@ -36,7 +36,7 @@ export async function signInWithPassword(email: string, password: string) {
   if (!data.user || !data.session) {
     throw new Error('Não foi possível iniciar a sessão. Verifique seu e-mail e senha.');
   }
-  return profileFromSupabaseUser(data.user);
+  return loadUserProfile(data.user);
 }
 
 export async function signUpWithPassword(input: {
@@ -61,7 +61,7 @@ export async function signUpWithPassword(input: {
   });
   if (error) throw error;
   if (data.session && data.user) {
-    return { user: profileFromSupabaseUser(data.user), confirmationRequired: false };
+    return { user: await loadUserProfile(data.user), confirmationRequired: false };
   }
   return { user: null, confirmationRequired: true };
 }
