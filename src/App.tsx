@@ -29,6 +29,7 @@ import { ShareAndInstallModal } from './components/ShareAndInstallModal';
 import { AdventistExegesisModal } from './components/AdventistExegesisModal';
 import { CanonicalAuditModal } from './components/CanonicalAuditModal';
 import { AuthModal } from './components/AuthModal';
+import { PasswordRecoveryModal } from './components/PasswordRecoveryModal';
 import { getSupabaseClient, profileFromSupabaseUser } from './services/authService';
 import { SubscriptionModal } from './components/SubscriptionModal';
 import { isUserPro } from './services/billingService';
@@ -53,6 +54,7 @@ export default function App() {
   // User Authentication State
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(true);
+  const [isPasswordRecoveryOpen, setIsPasswordRecoveryOpen] = useState(false);
 
   // Restore only a verified Supabase session; never trust a profile cached in localStorage.
   useEffect(() => {
@@ -75,7 +77,11 @@ export default function App() {
     }).catch(() => {
       if (active) setIsAuthOpen(true);
     });
-    const { data: { subscription } } = client.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = client.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsPasswordRecoveryOpen(true);
+        setIsAuthOpen(false);
+      }
       if (!active) return;
       setCurrentUser(session?.user ? profileFromSupabaseUser(session.user) : null);
       setIsAuthOpen(!session?.user);
@@ -457,6 +463,14 @@ export default function App() {
       />
 
       {/* Modern Authentication / Login / Register Modal */}
+      <PasswordRecoveryModal
+        isOpen={isPasswordRecoveryOpen}
+        onComplete={() => {
+          setIsPasswordRecoveryOpen(false);
+          setIsAuthOpen(true);
+        }}
+      />
+
       <AuthModal
         isOpen={isAuthOpen}
         onLoginSuccess={(user) => {
