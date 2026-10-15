@@ -28,7 +28,9 @@ import { TranslationsModal } from './components/TranslationsModal';
 import { ShareAndInstallModal } from './components/ShareAndInstallModal';
 import { AdventistExegesisModal } from './components/AdventistExegesisModal';
 import { CanonicalAuditModal } from './components/CanonicalAuditModal';
-import { AuthModal, loadStoredUser, saveStoredUser } from './components/AuthModal';
+import { AuthModal } from './components/AuthModal';
+import { PasswordRecoveryModal } from './components/PasswordRecoveryModal';
+import { getSupabaseClient, loadUserProfile, signOutUser } from './services/authService';
 import { SubscriptionModal } from './components/SubscriptionModal';
 import { isUserPro } from './services/billingService';
 import { usePWAInstall } from './hooks/usePWAInstall';
@@ -50,8 +52,60 @@ export default function App() {
   const [viewMode, setViewMode] = useState<ViewMode>(() => settings.defaultViewMode || 'classic_interlinear');
 
   // User Authentication State
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => loadStoredUser());
-  const [isAuthOpen, setIsAuthOpen] = useState<boolean>(() => !loadStoredUser());
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
+  const [isAuthOpen, setIsAuthOpen] = useState<boolean>(true);
+  const [isPasswordRecoveryOpen, setIsPasswordRecoveryOpen] = useState(false);
+
+  // Restore only a verified Supabase session; never trust a profile cached in localStorage.
+  useEffect(() => {
+    const client = getSupabaseClient();
+    if (!client) {
+      setCurrentUser(null);
+      setIsAuthOpen(true);
+      return;
+    }
+    let active = true;
+    client.auth.getSession().then(async ({ data, error }) => {
+      if (!active) return;
+      if (error || !data.session?.user) {
+        setCurrentUser(null);
+        setIsAuthOpen(true);
+      } else {
+        const profile = await loadUserProfile(data.session.user);
+        if (active) {
+          setCurrentUser(profile);
+          setIsAuthOpen(false);
+        }
+      }
+    }).catch(() => {
+      if (active) setIsAuthOpen(true);
+    });
+    const { data: { subscription } } = client.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsPasswordRecoveryOpen(true);
+        setIsAuthOpen(false);
+      }
+      if (!active) return;
+      if (!session?.user) {
+        setCurrentUser(null);
+        setIsAuthOpen(true);
+        return;
+      }
+      setIsAuthOpen(false);
+      // Load database entitlements outside the auth callback to avoid blocking token refresh.
+      window.setTimeout(() => {
+        void loadUserProfile(session.user).then((profile) => {
+          if (active) setCurrentUser(profile);
+        }).catch(() => {
+          if (active) setCurrentUser(null);
+        });
+      }, 0);
+    });
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   // Modal Dialogs State
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -243,6 +297,7 @@ export default function App() {
         onOpenExegesis={() => handleOpenExegesis()}
         onOpenSubscription={() => setIsSubscriptionOpen(true)}
         isPro={isUserPro(currentUser)}
+        onSignOut={() => { void signOutUser().catch(() => window.alert('Não foi possível encerrar a sessão. Tente novamente.')); }}
       />
 
       {/* Main Comparative Bible View */}
@@ -424,6 +479,14 @@ export default function App() {
       />
 
       {/* Modern Authentication / Login / Register Modal */}
+      <PasswordRecoveryModal
+        isOpen={isPasswordRecoveryOpen}
+        onComplete={() => {
+          setIsPasswordRecoveryOpen(false);
+          setIsAuthOpen(true);
+        }}
+      />
+
       <AuthModal
         isOpen={isAuthOpen}
         onLoginSuccess={(user) => {

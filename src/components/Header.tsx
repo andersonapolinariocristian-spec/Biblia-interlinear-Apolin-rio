@@ -20,7 +20,8 @@ import {
   Sparkles,
   Scroll,
   Rows,
-  Crown
+  Crown,
+  LogOut
 } from 'lucide-react';
 import { getOfficialLogoUrl } from '../utils/logoManager';
 
@@ -48,6 +49,7 @@ interface HeaderProps {
   onOpenExegesis?: () => void;
   onOpenSubscription?: () => void;
   isPro?: boolean;
+  onSignOut?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -72,7 +74,8 @@ export const Header: React.FC<HeaderProps> = ({
   isFullscreen,
   onOpenExegesis,
   onOpenSubscription,
-  isPro
+  isPro,
+  onSignOut
 }) => {
   const activeTrans = WORLD_TRANSLATIONS.find((t) => t.id === activeTranslationId) || WORLD_TRANSLATIONS[0];
   const [logoUrl, setLogoUrl] = React.useState<string>(() => getOfficialLogoUrl());
@@ -154,6 +157,11 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right Zone: Clean, Organized, Uncluttered Action Tools */}
           <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+            {onSignOut && (
+              <button onClick={onSignOut} className="p-1.5 sm:p-2 text-[#554C37] hover:text-red-700 hover:bg-red-50 rounded-lg border border-transparent hover:border-red-200 transition-colors cursor-pointer" title="Sair da conta" aria-label="Sair da conta">
+                <LogOut className="w-4 h-4" />
+              </button>
+            )}
             {/* Pro Subscription / Plan Button */}
             {onOpenSubscription && (
               <button

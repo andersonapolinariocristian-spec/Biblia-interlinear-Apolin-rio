@@ -5,7 +5,7 @@
  */
 
 import { UserProfile, SubscriptionPlan } from '../types/bible';
-import { saveStoredUser } from '../components/AuthModal';
+import { getSupabaseClient } from './authService';
 
 export interface PricingPlan {
   id: string;
@@ -74,15 +74,6 @@ export const PLAY_STORE_PLANS: PricingPlan[] = [
   }
 ];
 
-// Valid test/promotional coupons for instant activation
-const PROMOTIONAL_COUPONS: Record<string, SubscriptionPlan> = {
-  'APOLINARIO-PRO': 'lifetime',
-  'TEOLOGIA2026': 'annual',
-  'PASTOR-VIP': 'lifetime',
-  'ESTUDANTE-PRO': 'monthly',
-  'ALPHA-TESTER': 'lifetime'
-};
-
 /**
  * Check if the Digital Goods API is available (Google Play Store TWA environment)
  */
@@ -95,100 +86,54 @@ export async function isGooglePlayBillingAvailable(): Promise<boolean> {
  * Initiate checkout for a subscription plan via Google Play or Web fallback
  */
 export async function purchasePlan(
-  plan: PricingPlan,
-  currentUser: UserProfile | null
+  _plan: PricingPlan,
+  _currentUser: UserProfile | null
 ): Promise<{ success: boolean; message: string; updatedUser?: UserProfile }> {
-  try {
-    // 1. If running inside Google Play TWA with Digital Goods API
-    const win = typeof window !== 'undefined' ? (window as unknown as { getDigitalGoodsService?: (url: string) => Promise<unknown> }) : null;
-    if (win && win.getDigitalGoodsService) {
-      try {
-        const service = await win.getDigitalGoodsService('https://play.google.com/billing');
-        if (service) {
-          // Play Billing flow would occur here in production TWA
-          console.log('[PlayBilling] Initiating purchase for SKU:', plan.sku);
-        }
-      } catch (playErr) {
-        console.warn('[PlayBilling] Digital Goods Service call warning:', playErr);
-      }
-    }
-
-    // 2. Grant subscription locally for user session
-    const updatedUser: UserProfile = {
-      ...(currentUser || {
-        id: `user_${Date.now()}`,
-        name: 'Estudante da Bíblia',
-        email: 'assinante@bibliaapolinario.com',
-        role: 'Teólogo',
-        createdAt: new Date().toISOString()
-      }),
-      isPro: true,
-      plan: plan.id as SubscriptionPlan,
-      proExpiresAt: plan.id === 'lifetime' 
-        ? '2099-12-31T23:59:59.000Z' 
-        : plan.id === 'annual'
-          ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
-          : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-    };
-
-    saveStoredUser(updatedUser);
-
-    return {
-      success: true,
-      message: `Parabéns! Sua assinatura do ${plan.name} foi ativada com sucesso. Aproveite todos os recursos ilimitados!`,
-      updatedUser
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: error instanceof Error ? error.message : 'Falha ao processar assinatura.'
-    };
-  }
+  // Never unlock paid access in the browser. A verified Play Store purchase flow
+  // and server-side receipt validation must be configured before this is enabled.
+  return {
+    success: false,
+    message: 'A cobrança segura ainda não está integrada. Nenhum valor foi cobrado e o acesso Pro não foi alterado. Entre em contato com o suporte.'
+  };
 }
 
 /**
- * Redeem a promotional or partner voucher code
+ * Redeem a voucher through a server-side Postgres function. Voucher values and
+ * entitlement changes must never be trusted from client-side constants/storage.
  */
-export function redeemVoucherCode(
+export async function redeemVoucherCode(
   rawCode: string,
   currentUser: UserProfile | null
-): { success: boolean; message: string; updatedUser?: UserProfile } {
+): Promise<{ success: boolean; message: string; updatedUser?: UserProfile }> {
+  if (!currentUser) {
+    return { success: false, message: 'Entre na sua conta antes de resgatar um cupom.' };
+  }
   const code = rawCode.trim().toUpperCase();
-
   if (!code) {
     return { success: false, message: 'Por favor, digite o código do cupom ou chave de ativação.' };
   }
-
-  const matchedPlan = PROMOTIONAL_COUPONS[code];
-
-  if (!matchedPlan) {
-    return {
-      success: false,
-      message: 'Código inválido ou expirado. Verifique a digitação ou contate o suporte.'
-    };
+  const client = getSupabaseClient();
+  if (!client) {
+    return { success: false, message: 'Supabase não configurado. O cupom não foi resgatado.' };
   }
-
-  const updatedUser: UserProfile = {
-    ...(currentUser || {
-      id: `user_${Date.now()}`,
-      name: 'Estudante da Bíblia',
-      email: 'assinante@bibliaapolinario.com',
-      role: 'Teólogo',
-      createdAt: new Date().toISOString()
-    }),
-    isPro: true,
-    plan: matchedPlan,
-    proExpiresAt: matchedPlan === 'lifetime'
-      ? '2099-12-31T23:59:59.000Z'
-      : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
-  };
-
-  saveStoredUser(updatedUser);
-
+  const { data, error } = await client.rpc('redeem_voucher', { p_code: code });
+  if (error) {
+    return { success: false, message: 'Não foi possível validar o cupom. Verifique a configuração do banco ou contate o suporte.' };
+  }
+  const result = data as { success?: boolean; message?: string; plan?: SubscriptionPlan; expires_at?: string } | null;
+  if (!result?.success) {
+    return { success: false, message: result?.message || 'Código inválido, expirado ou já utilizado.' };
+  }
   return {
     success: true,
-    message: `Código VIP validado com sucesso! Acesso Pro (${matchedPlan === 'lifetime' ? 'Vitalício' : 'Anual'}) liberado.`,
-    updatedUser
+    message: result.message || 'Cupom validado. O acesso será atualizado pela conta.',
+    updatedUser: {
+      ...currentUser,
+      // This is only a display hint. Authorization must check the database entitlement.
+      isPro: true,
+      plan: result.plan || 'free',
+      proExpiresAt: result.expires_at,
+    }
   };
 }
 
@@ -197,6 +142,7 @@ export function redeemVoucherCode(
  */
 export function isUserPro(user: UserProfile | null): boolean {
   if (!user) return false;
+  // Until the server-backed entitlement is loaded, fail closed.
   if (!user.isPro) return false;
   if (!user.proExpiresAt) return true;
 
@@ -204,6 +150,6 @@ export function isUserPro(user: UserProfile | null): boolean {
     const expiry = new Date(user.proExpiresAt).getTime();
     return expiry > Date.now();
   } catch {
-    return true;
+    return false;
   }
 }
