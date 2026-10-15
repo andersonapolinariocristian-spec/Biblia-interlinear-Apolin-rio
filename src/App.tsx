@@ -28,7 +28,8 @@ import { TranslationsModal } from './components/TranslationsModal';
 import { ShareAndInstallModal } from './components/ShareAndInstallModal';
 import { AdventistExegesisModal } from './components/AdventistExegesisModal';
 import { CanonicalAuditModal } from './components/CanonicalAuditModal';
-import { AuthModal, loadStoredUser, saveStoredUser } from './components/AuthModal';
+import { AuthModal } from './components/AuthModal';
+import { getSupabaseClient, profileFromSupabaseUser } from './services/authService';
 import { SubscriptionModal } from './components/SubscriptionModal';
 import { isUserPro } from './services/billingService';
 import { usePWAInstall } from './hooks/usePWAInstall';
@@ -50,8 +51,40 @@ export default function App() {
   const [viewMode, setViewMode] = useState<ViewMode>(() => settings.defaultViewMode || 'classic_interlinear');
 
   // User Authentication State
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => loadStoredUser());
-  const [isAuthOpen, setIsAuthOpen] = useState<boolean>(() => !loadStoredUser());
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
+  const [isAuthOpen, setIsAuthOpen] = useState<boolean>(true);
+
+  // Restore only a verified Supabase session; never trust a profile cached in localStorage.
+  useEffect(() => {
+    const client = getSupabaseClient();
+    if (!client) {
+      setCurrentUser(null);
+      setIsAuthOpen(true);
+      return;
+    }
+    let active = true;
+    client.auth.getSession().then(({ data, error }) => {
+      if (!active) return;
+      if (error || !data.session?.user) {
+        setCurrentUser(null);
+        setIsAuthOpen(true);
+      } else {
+        setCurrentUser(profileFromSupabaseUser(data.session.user));
+        setIsAuthOpen(false);
+      }
+    }).catch(() => {
+      if (active) setIsAuthOpen(true);
+    });
+    const { data: { subscription } } = client.auth.onAuthStateChange((_event, session) => {
+      if (!active) return;
+      setCurrentUser(session?.user ? profileFromSupabaseUser(session.user) : null);
+      setIsAuthOpen(!session?.user);
+    });
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   // Modal Dialogs State
   const [isNavOpen, setIsNavOpen] = useState(false);
