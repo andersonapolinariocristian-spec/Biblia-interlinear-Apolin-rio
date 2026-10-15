@@ -1,0 +1,6 @@
+{
+  "name": "Bíblia Interlinear Apolinário",
+  "description": "Bíblia Interlinear para estudo teológico com Velho Testamento em Hebraico transliterado e Novo Testamento em Grego transliterado, tradução em Português, notas por versículo e busca avançada.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

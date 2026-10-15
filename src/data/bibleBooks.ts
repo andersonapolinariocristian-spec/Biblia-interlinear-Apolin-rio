@@ -1,0 +1,835 @@
+import { Book } from '../types/bible';
+
+export const BIBLE_BOOKS: Book[] = [
+  // =================== VELHO TESTAMENTO (39 LIVROS - HEBRAICO) ===================
+  // Pentateuco / Torá
+  {
+    id: 'GEN',
+    name: 'Gênesis',
+    originalName: 'בְּרֵאשִׁית',
+    transliteratedName: 'Bereshit',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Torá (A Lei)',
+    totalChapters: 50,
+    abbreviation: 'Gn',
+    description: 'No princípio: criação, queda, patriarcas Abraão, Isaque, Jacó e José.'
+  },
+  {
+    id: 'EXO',
+    name: 'Êxodo',
+    originalName: 'שְׁמוֹת',
+    transliteratedName: 'Shemot',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Torá (A Lei)',
+    totalChapters: 40,
+    abbreviation: 'Êx',
+    description: 'Nomes: libertação do Egito, sarça ardente, páscoa e os Dez Mandamentos no Sinai.'
+  },
+  {
+    id: 'LEV',
+    name: 'Levítico',
+    originalName: 'וַיִּקְרָא',
+    transliteratedName: 'Vayikra',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Torá (A Lei)',
+    totalChapters: 27,
+    abbreviation: 'Lv',
+    description: 'E chamou: leis de santidade, sacrifícios e sacerdócio.'
+  },
+  {
+    id: 'NUM',
+    name: 'Números',
+    originalName: 'בְּמִדְבַּר',
+    transliteratedName: 'Bemidbar',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Torá (A Lei)',
+    totalChapters: 36,
+    abbreviation: 'Nm',
+    description: 'No deserto: peregrinação pelo deserto durante 40 anos e contagem do povo.'
+  },
+  {
+    id: 'DEU',
+    name: 'Deuteronômio',
+    originalName: 'דְּבָרִים',
+    transliteratedName: 'Devarim',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Torá (A Lei)',
+    totalChapters: 34,
+    abbreviation: 'Dt',
+    description: 'Palavras: os discursos de Moisés e a renovação da aliança (Shemá Israel).'
+  },
+
+  // Históricos
+  {
+    id: 'JOS',
+    name: 'Josué',
+    originalName: 'יְהוֹשֻׁעַ',
+    transliteratedName: 'Yehoshua',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 24,
+    abbreviation: 'Js',
+    description: 'A conquista e divisão da Terra Prometida.'
+  },
+  {
+    id: 'JDG',
+    name: 'Juízes',
+    originalName: 'שֹׁפְטִים',
+    transliteratedName: 'Shoftim',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 21,
+    abbreviation: 'Jz',
+    description: 'Ciclos de declínio espiritual e libertação pelos juízes de Israel.'
+  },
+  {
+    id: 'RUT',
+    name: 'Rute',
+    originalName: 'רוּת',
+    transliteratedName: 'Rut',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 4,
+    abbreviation: 'Rt',
+    description: 'Lealdade, o goel (resgatador) Boaz e a linhagem do Messias.'
+  },
+  {
+    id: '1SA',
+    name: '1 Samuel',
+    originalName: 'שְׁמוּאֵל א׳',
+    transliteratedName: 'Shemuel Alef',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 31,
+    abbreviation: '1Sm',
+    description: 'Transição da teocracia para a monarquia: Samuel, Saul e a unção de Davi.'
+  },
+  {
+    id: '2SA',
+    name: '2 Samuel',
+    originalName: 'שְׁמוּאֵל ב׳',
+    transliteratedName: 'Shemuel Bet',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 24,
+    abbreviation: '2Sm',
+    description: 'O reinado glorioso do rei Davi e a aliança davídica.'
+  },
+  {
+    id: '1KI',
+    name: '1 Reis',
+    originalName: 'מְלָכִים א׳',
+    transliteratedName: 'Melakhim Alef',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 22,
+    abbreviation: '1Rs',
+    description: 'Salomão, construção do Templo de Jerusalém e divisão do reino.'
+  },
+  {
+    id: '2KI',
+    name: '2 Reis',
+    originalName: 'מְלָכִים ב׳',
+    transliteratedName: 'Melakhim Bet',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 25,
+    abbreviation: '2Rs',
+    description: 'Elias, Eliseu, a queda de Samaria e o exílio babilônico.'
+  },
+  {
+    id: '1CH',
+    name: '1 Crônicas',
+    originalName: 'דִּבְרֵי הַיָּמִים א׳',
+    transliteratedName: 'Divrei Hayamim Alef',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 29,
+    abbreviation: '1Cr',
+    description: 'Genealogias de Israel e os preparativos de Davi para o Templo.'
+  },
+  {
+    id: '2CH',
+    name: '2 Crônicas',
+    originalName: 'דִּבְרֵי הַיָּמִים ב׳',
+    transliteratedName: 'Divrei Hayamim Bet',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 36,
+    abbreviation: '2Cr',
+    description: 'Salomão, os reis de Judá, avivamentos e o decreto de Ciro.'
+  },
+  {
+    id: 'EZR',
+    name: 'Esdras',
+    originalName: 'עֶזְרָא',
+    transliteratedName: 'Ezra',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 10,
+    abbreviation: 'Ed',
+    description: 'O retorno do exílio e a reconstrução do segundo Templo.'
+  },
+  {
+    id: 'NEH',
+    name: 'Neemias',
+    originalName: 'נְחֶמְיָה',
+    transliteratedName: 'Nechemyah',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 13,
+    abbreviation: 'Ne',
+    description: 'Reconstrução dos muros de Jerusalém e avivamento pela Lei.'
+  },
+  {
+    id: 'EST',
+    name: 'Ester',
+    originalName: 'אֶסְתֵּר',
+    transliteratedName: 'Ester',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Livros Históricos',
+    totalChapters: 10,
+    abbreviation: 'Et',
+    description: 'A providência invisível de Deus salvando o povo judeu na Pérsia.'
+  },
+
+  // Poéticos e Sapienciais
+  {
+    id: 'JOB',
+    name: 'Jó',
+    originalName: 'אִיּוֹב',
+    transliteratedName: 'Iyov',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Poéticos e Sapienciais',
+    totalChapters: 42,
+    abbreviation: 'Jó',
+    description: 'O sofrimento do justo, a soberania divina e o Redentor vivo.'
+  },
+  {
+    id: 'PSA',
+    name: 'Salmos',
+    originalName: 'תְּהִלִּים',
+    transliteratedName: 'Tehillim',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Poéticos e Sapienciais',
+    totalChapters: 150,
+    abbreviation: 'Sl',
+    description: 'Louvores, orações, cânticos e profecias messiânicas do coração de Israel.'
+  },
+  {
+    id: 'PRO',
+    name: 'Provérbios',
+    originalName: 'מִשְׁלֵי',
+    transliteratedName: 'Mishlei',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Poéticos e Sapienciais',
+    totalChapters: 31,
+    abbreviation: 'Pv',
+    description: 'A sabedoria prática fundamentada no temor do Senhor.'
+  },
+  {
+    id: 'ECC',
+    name: 'Eclesiastes',
+    originalName: 'קֹהֶלֶת',
+    transliteratedName: 'Kohelet',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Poéticos e Sapienciais',
+    totalChapters: 12,
+    abbreviation: 'Ec',
+    description: 'O pregador, o sentido da vida debaixo do sol e a eternidade no coração humano.'
+  },
+  {
+    id: 'SNG',
+    name: 'Cânticos de Salomão',
+    originalName: 'שִׁיר הַשִּׁירִים',
+    transliteratedName: 'Shir Hashirim',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Poéticos e Sapienciais',
+    totalChapters: 8,
+    abbreviation: 'Ct',
+    description: 'O cântico dos cânticos: o amor conjugal e a aliança com Deus.'
+  },
+
+  // Profetas Maiores
+  {
+    id: 'ISA',
+    name: 'Isaías',
+    originalName: 'יְשַׁעְיָהוּ',
+    transliteratedName: 'Yeshayahu',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Maiores',
+    totalChapters: 66,
+    abbreviation: 'Is',
+    description: 'O profeta evangélico: santidade de Deus, o Emanuel e o Servo Sofredor.'
+  },
+  {
+    id: 'JER',
+    name: 'Jeremias',
+    originalName: 'יִרְמְיָהוּ',
+    transliteratedName: 'Yirmeyahu',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Maiores',
+    totalChapters: 52,
+    abbreviation: 'Jr',
+    description: 'O profeta chorão e a promessa da Nova Aliança gravada no coração.'
+  },
+  {
+    id: 'LAM',
+    name: 'Lamentações',
+    originalName: 'אֵיכָה',
+    transliteratedName: 'Eikhah',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Maiores',
+    totalChapters: 5,
+    abbreviation: 'Lm',
+    description: 'Pranto sobre a destruição de Jerusalém e as misericórdias que se renovam.'
+  },
+  {
+    id: 'EZK',
+    name: 'Ezequiel',
+    originalName: 'יְחֶזְקֵאל',
+    transliteratedName: 'Yekhezkel',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Maiores',
+    totalChapters: 48,
+    abbreviation: 'Ez',
+    description: 'A glória de Deus, o vale de ossos secos e o novo templo.'
+  },
+  {
+    id: 'DAN',
+    name: 'Daniel',
+    originalName: 'דָּנִיֵּאל',
+    transliteratedName: 'Daniyel',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Maiores',
+    totalChapters: 12,
+    abbreviation: 'Dn',
+    description: 'Fidelidade na Babilônia, a fornalha, os leões e visões proféticas do Reino eterno.'
+  },
+
+  // Profetas Menores
+  {
+    id: 'HOS',
+    name: 'Oseias',
+    originalName: 'הוֹשֵׁעַ',
+    transliteratedName: 'Hoshea',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 14,
+    abbreviation: 'Os',
+    description: 'O amor fiel e incondicional de Deus por um povo infiel.'
+  },
+  {
+    id: 'JOL',
+    name: 'Joel',
+    originalName: 'יוֹאֵל',
+    transliteratedName: 'Yoel',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 3,
+    abbreviation: 'Jl',
+    description: 'O Dia do Senhor e o derramamento do Espírito Santo sobre toda a carne.'
+  },
+  {
+    id: 'AMO',
+    name: 'Amós',
+    originalName: 'עָמוֹס',
+    transliteratedName: 'Amos',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 9,
+    abbreviation: 'Am',
+    description: 'Justiça social e o juízo divino contra a hipocrisia religiosa.'
+  },
+  {
+    id: 'OBA',
+    name: 'Obadias',
+    originalName: 'עֹבַדְיָה',
+    transliteratedName: 'Ovadyah',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 1,
+    abbreviation: 'Ob',
+    description: 'Julgamento contra Edom por sua soberba e hostilidade.'
+  },
+  {
+    id: 'JON',
+    name: 'Jonas',
+    originalName: 'יוֹנָה',
+    transliteratedName: 'Yonah',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 4,
+    abbreviation: 'Jn',
+    description: 'O profeta fujão, a misericórdia para com Nínive e a lição de compaixão.'
+  },
+  {
+    id: 'MIC',
+    name: 'Miqueias',
+    originalName: 'מִיכָה',
+    transliteratedName: 'Mikhah',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 7,
+    abbreviation: 'Mq',
+    description: 'A profecia do nascimento do Messias em Belém e a verdadeira justiça.'
+  },
+  {
+    id: 'NAM',
+    name: 'Naum',
+    originalName: 'נַחוּם',
+    transliteratedName: 'Nachum',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 3,
+    abbreviation: 'Na',
+    description: 'O juízo iminente e a queda definitiva do império assírio em Nínive.'
+  },
+  {
+    id: 'HAB',
+    name: 'Habacuque',
+    originalName: 'חֲבַקּוּק',
+    transliteratedName: 'Chavakuk',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 3,
+    abbreviation: 'Hc',
+    description: 'O justo viverá da sua fé em meio a tempos de provação.'
+  },
+  {
+    id: 'ZEP',
+    name: 'Sofonias',
+    originalName: 'צְפַנְיָה',
+    transliteratedName: 'Tzefanyah',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 3,
+    abbreviation: 'Sf',
+    description: 'O grande Dia do Senhor e o regozijo de Deus sobre o remanescente fiel.'
+  },
+  {
+    id: 'HAG',
+    name: 'Ageu',
+    originalName: 'חַגַּי',
+    transliteratedName: 'Chaggai',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 2,
+    abbreviation: 'Ag',
+    description: 'Prioridades espirituais e a ordem de reconstruir a Casa de Deus.'
+  },
+  {
+    id: 'ZEC',
+    name: 'Zacarias',
+    originalName: 'זְכַרְיָה',
+    transliteratedName: 'Zekharyah',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 14,
+    abbreviation: 'Zc',
+    description: 'Visões messiânicas: o Rei que entra humilde montado num jumentinho.'
+  },
+  {
+    id: 'MAL',
+    name: 'Malaquias',
+    originalName: 'מַלְאָכִי',
+    transliteratedName: 'Malakhi',
+    testament: 'VT',
+    language: 'hebrew',
+    category: 'Profetas Menores',
+    totalChapters: 4,
+    abbreviation: 'Ml',
+    description: 'O mensageiro da aliança e o Sol da Justiça que nascerá com cura em Suas asas.'
+  },
+
+  // =================== NOVO TESTAMENTO (27 LIVROS - GREGO) ===================
+  // Evangelhos
+  {
+    id: 'MAT',
+    name: 'Mateus',
+    originalName: 'ΚΑΤΑ ΜΑΘΘΑΙΟΝ',
+    transliteratedName: 'Kata Maththaion',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Evangelhos',
+    totalChapters: 28,
+    abbreviation: 'Mt',
+    description: 'Jesus como o Rei Messias prometido nas profecias do Antigo Testamento.'
+  },
+  {
+    id: 'MRK',
+    name: 'Marcos',
+    originalName: 'ΚΑΤΑ ΜΑΡΚΟΝ',
+    transliteratedName: 'Kata Markon',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Evangelhos',
+    totalChapters: 16,
+    abbreviation: 'Mc',
+    description: 'Jesus como o Servo Soberano que opera prodígios e dá a vida em resgate de muitos.'
+  },
+  {
+    id: 'LUK',
+    name: 'Lucas',
+    originalName: 'ΚΑΤΑ ΛΟΥΚΑΝ',
+    transliteratedName: 'Kata Loukan',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Evangelhos',
+    totalChapters: 24,
+    abbreviation: 'Lc',
+    description: 'Jesus como o Filho do Homem perfeito, acolhendo os pobres, gentios e pecadores.'
+  },
+  {
+    id: 'JHN',
+    name: 'João',
+    originalName: 'ΚΑΤΑ ΙΩΑΝΝΗΝ',
+    transliteratedName: 'Kata Iōannēn',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Evangelhos',
+    totalChapters: 21,
+    abbreviation: 'Jo',
+    description: 'O Verbo Divino (Logos) que se fez carne: sinais para que creiais que Jesus é o Cristo.'
+  },
+
+  // Livro Histórico
+  {
+    id: 'ACT',
+    name: 'Atos dos Apóstolos',
+    originalName: 'ΠΡΑΞΕΙΣ ΤΩΝ ΑΠΟΣΤΟΛΩΝ',
+    transliteratedName: 'Praxeis tōn Apostolōn',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Histórico',
+    totalChapters: 28,
+    abbreviation: 'At',
+    description: 'O Pentecostes e a expansão da Igreja primitiva pelo poder do Espírito Santo.'
+  },
+
+  // Epístolas Paulinas
+  {
+    id: 'ROM',
+    name: 'Romanos',
+    originalName: 'ΠΡΟΣ ΡΩΜΑΙΟΥΣ',
+    transliteratedName: 'Pros Rōmaious',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Paulinas',
+    totalChapters: 16,
+    abbreviation: 'Rm',
+    description: 'A magna carta da justificação pela fé, a graça e a santificação no Espírito.'
+  },
+  {
+    id: '1CO',
+    name: '1 Coríntios',
+    originalName: 'ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Α׳',
+    transliteratedName: 'Pros Korinthious Alef',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Paulinas',
+    totalChapters: 16,
+    abbreviation: '1Co',
+    description: 'Ordem na igreja, ceia do Senhor, dons espirituais, amor (cap. 13) e ressurreição.'
+  },
+  {
+    id: '2CO',
+    name: '2 Coríntios',
+    originalName: 'ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Β׳',
+    transliteratedName: 'Pros Korinthious Bet',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Paulinas',
+    totalChapters: 13,
+    abbreviation: '2Co',
+    description: 'O ministério da reconciliação, a fraqueza humana e o poder da graça superabundante.'
+  },
+  {
+    id: 'GAL',
+    name: 'Gálatas',
+    originalName: 'ΠΡΟΣ ΓΑΛΑΤΑΣ',
+    transliteratedName: 'Pros Galatas',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Paulinas',
+    totalChapters: 6,
+    abbreviation: 'Gl',
+    description: 'A liberdade em Cristo e o fruto do Espírito contra o legalismo religioso.'
+  },
+  {
+    id: 'EPH',
+    name: 'Efésios',
+    originalName: 'ΠΡΟΣ ΕΦΕΣΙΟΥΣ',
+    transliteratedName: 'Pros Ephesious',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Paulinas',
+    totalChapters: 6,
+    abbreviation: 'Ef',
+    description: 'O mistério da Igreja como Corpo de Cristo, a armadura de Deus e a salvação pela graça.'
+  },
+  {
+    id: 'PHP',
+    name: 'Filipenses',
+    originalName: 'ΠΡΟΣ ΦΙΛΙΠΠΗΣΙΟΥΣ',
+    transliteratedName: 'Pros Philippēsious',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Paulinas',
+    totalChapters: 4,
+    abbreviation: 'Fp',
+    description: 'A alegria indestrutível no Senhor e o hino de esvaziamento (Kenosis) de Cristo.'
+  },
+  {
+    id: 'COL',
+    name: 'Colossenses',
+    originalName: 'ΠΡΟΣ ΚΟΛΟΣΣΑΕΙΣ',
+    transliteratedName: 'Pros Kolossaeis',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Paulinas',
+    totalChapters: 4,
+    abbreviation: 'Cl',
+    description: 'A suprema supremacia e suficiência de Cristo sobre toda a criação.'
+  },
+  {
+    id: '1TH',
+    name: '1 Tessalonicenses',
+    originalName: 'ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Α׳',
+    transliteratedName: 'Pros Thessalonikeis Alef',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Paulinas',
+    totalChapters: 5,
+    abbreviation: '1Ts',
+    description: 'A esperança da bendita volta de Cristo e exortação à santidade.'
+  },
+  {
+    id: '2TH',
+    name: '2 Tessalonicenses',
+    originalName: 'ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Β׳',
+    transliteratedName: 'Pros Thessalonikeis Bet',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Paulinas',
+    totalChapters: 3,
+    abbreviation: '2Ts',
+    description: 'O Dia do Senhor, a revelação do homem da iniquidade e firmeza na verdade.'
+  },
+  {
+    id: '1TI',
+    name: '1 Timóteo',
+    originalName: 'ΠΡΟΣ ΤΙΜΟΘΕΟΝ Α׳',
+    transliteratedName: 'Pros Timotheon Alef',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Pastorais',
+    totalChapters: 6,
+    abbreviation: '1Tm',
+    description: 'Instruções pastorais sobre sã doutrina, liderança e adoração congregacional.'
+  },
+  {
+    id: '2TI',
+    name: '2 Timóteo',
+    originalName: 'ΠΡΟΣ ΤΙΜΟΘΕΟΝ Β׳',
+    transliteratedName: 'Pros Timotheon Bet',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Pastorais',
+    totalChapters: 4,
+    abbreviation: '2Tm',
+    description: 'O testamento final de Paulo: combati o bom combate, guardei a fé.'
+  },
+  {
+    id: 'TIT',
+    name: 'Tito',
+    originalName: 'ΠΡΟΣ ΤΙΤΟΝ',
+    transliteratedName: 'Pros Titon',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Pastorais',
+    totalChapters: 3,
+    abbreviation: 'Tt',
+    description: 'A organização e integridade das igrejas em Creta e as boas obras pela graça.'
+  },
+  {
+    id: 'PHM',
+    name: 'Filemom',
+    originalName: 'ΠΡΟΣ ΦΙΛΗΜΟΝΑ',
+    transliteratedName: 'Pros Philēmona',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Paulinas',
+    totalChapters: 1,
+    abbreviation: 'Fm',
+    description: 'Um comovente apelo cristão por perdão e fraternidade em relação a Onésimo.'
+  },
+
+  // Epístolas Gerais
+  {
+    id: 'HEB',
+    name: 'Hebreus',
+    originalName: 'ΠΡΟΣ ΕΒΡΑΙΟΥΣ',
+    transliteratedName: 'Pros Hebraious',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Gerais',
+    totalChapters: 13,
+    abbreviation: 'Hb',
+    description: 'A superioridade eterna de Cristo como sumo sacerdote da Nova e melhor Aliança.'
+  },
+  {
+    id: 'JAS',
+    name: 'Tiago',
+    originalName: 'ΙΑΚΩΒΟΥ',
+    transliteratedName: 'Iakōbou',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Gerais',
+    totalChapters: 5,
+    abbreviation: 'Tg',
+    description: 'A fé viva e genuína comprovada através de ações práticas e domínio da língua.'
+  },
+  {
+    id: '1PE',
+    name: '1 Pedro',
+    originalName: 'ΠΕΤΡΟΥ Α׳',
+    transliteratedName: 'Petrou Alef',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Gerais',
+    totalChapters: 5,
+    abbreviation: '1Pe',
+    description: 'Esperança viva e perseverança cristã sob o fogo das provações e perseguições.'
+  },
+  {
+    id: '2PE',
+    name: '2 Pedro',
+    originalName: 'ΠΕΤΡΟΥ Β׳',
+    transliteratedName: 'Petrou Bet',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Gerais',
+    totalChapters: 3,
+    abbreviation: '2Pe',
+    description: 'Alerta solene contra falsos mestres e a certeza da promessa de novos céus e terra.'
+  },
+  {
+    id: '1JN',
+    name: '1 João',
+    originalName: 'ΙΩΑΝΝΟΥ Α׳',
+    transliteratedName: 'Iōannou Alef',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Gerais',
+    totalChapters: 5,
+    abbreviation: '1Jo',
+    description: 'Comunhão com Deus que é Luz e Amor: certezas da salvação.'
+  },
+  {
+    id: '2JN',
+    name: '2 João',
+    originalName: 'ΙΩΑΝΝΟΥ Β׳',
+    transliteratedName: 'Iōannou Bet',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Gerais',
+    totalChapters: 1,
+    abbreviation: '2Jo',
+    description: 'Andar na verdade e no amor fraterno, guardando-se de enganadores.'
+  },
+  {
+    id: '3JN',
+    name: '3 João',
+    originalName: 'ΙΩΑΝΝΟΥ Γ׳',
+    transliteratedName: 'Iōannou Gamma',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Gerais',
+    totalChapters: 1,
+    abbreviation: '3Jo',
+    description: 'Hospitalidade aos obreiros da verdade (Gaio) contra o autoritarismo de Diótrefes.'
+  },
+  {
+    id: 'JUD',
+    name: 'Judas',
+    originalName: 'ΙΟΥΔΑ',
+    transliteratedName: 'Iouda',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Epístolas Gerais',
+    totalChapters: 1,
+    abbreviation: 'Jd',
+    description: 'Batalhar zelosamente pela fé uma vez por todas entregue aos santos.'
+  },
+
+  // Revelação / Profecia
+  {
+    id: 'REV',
+    name: 'Apocalipse',
+    originalName: 'ΑΠΟΚΑΛΥΨΙΣ ΙΩΑΝΝΟΥ',
+    transliteratedName: 'Apokalypsis Iōannou',
+    testament: 'NT',
+    language: 'greek',
+    category: 'Profecia e Apocalíptico',
+    totalChapters: 22,
+    abbreviation: 'Ap',
+    description: 'A revelação triunfante do Cordeiro vencedor, a nova Jerusalém e o reino sem fim.'
+  }
+];
+
+export const BOOK_CATEGORIES = {
+  VT: [
+    'Torá (A Lei)',
+    'Livros Históricos',
+    'Poéticos e Sapienciais',
+    'Profetas Maiores',
+    'Profetas Menores'
+  ],
+  NT: [
+    'Evangelhos',
+    'Histórico',
+    'Epístolas Paulinas',
+    'Epístolas Pastorais',
+    'Epístolas Gerais',
+    'Profecia e Apocalíptico'
+  ]
+};

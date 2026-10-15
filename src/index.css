@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-cinzel {
+    font-family: 'Cinzel', serif;
+  }
+  .font-hebrew {
+    font-family: 'Frank Ruhl Libre', 'SBL Hebrew', 'Ezra SIL', 'Times New Roman', serif;
+    font-feature-settings: "kern" 1;
+  }
+  .font-greek {
+    font-family: 'Cardo', 'Gentium Plus', 'Times New Roman', serif;
+  }
+  .font-serif-bible {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+  }
+  .font-sans-ui {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+/* Custom parchment background & scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f3eee6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d6cebe;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b5a995;
+}
+
+.hebrew-text {
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+

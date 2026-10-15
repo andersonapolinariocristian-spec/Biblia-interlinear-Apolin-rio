@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module">
+      import RefreshRuntime from '/@react-refresh';
+      RefreshRuntime.injectIntoGlobalHook(window);
+      window.$RefreshReg$ = () => {};
+      window.$RefreshSig$ = () => (type) => type;
+      window.__vite_plugin_react_preamble_installed__ = true;
+    </script>
+    <script>
+      // Gracefully handle Vite dev-server HMR connection fluctuations in iframe environments
+      window.addEventListener('error', function (e) {
+        if (e && (e.message?.includes('WebSocket') || e.error?.message?.includes('WebSocket'))) {
+          e.stopImmediatePropagation();
+        }
+      });
+      const _origError = console.error;
+      console.error = function (...args) {
+        if (args.some(function (a) {
+          return (typeof a === 'string' && a.includes('WebSocket closed without opened')) ||
+                 (a && a.message && typeof a.message === 'string' && a.message.includes('WebSocket closed without opened'));
+        })) {
+          return;
+        }
+        _origError.apply(console, args);
+      };
+    </script>
+    <title>Bíblia Interlinear Apolinário</title>
+    <meta name="description" content="Bíblia Interlinear para estudo teológico com Velho Testamento em Hebraico transliterado e Novo Testamento em Grego transliterado, tradução em Português, notas por versículo e busca avançada." />
+    <meta property="og:title" content="Bíblia Interlinear Apolinário" />
+    <meta property="og:description" content="Bíblia Interlinear para estudo teológico com Velho Testamento em Hebraico transliterado e Novo Testamento em Grego transliterado, tradução em Português, notas por versículo e busca avançada." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0C1B2A" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Bíblia Apolinário" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/png" href="/pwa-192x192.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Frank+Ruhl+Libre:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#FBF9F5] text-[#1C1917] antialiased selection:bg-[#E9D8A6] selection:text-[#0C1B2A]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
