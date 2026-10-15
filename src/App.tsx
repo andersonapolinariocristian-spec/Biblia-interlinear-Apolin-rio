@@ -30,7 +30,7 @@ import { AdventistExegesisModal } from './components/AdventistExegesisModal';
 import { CanonicalAuditModal } from './components/CanonicalAuditModal';
 import { AuthModal } from './components/AuthModal';
 import { PasswordRecoveryModal } from './components/PasswordRecoveryModal';
-import { getSupabaseClient, profileFromSupabaseUser } from './services/authService';
+import { getSupabaseClient, loadUserProfile } from './services/authService';
 import { SubscriptionModal } from './components/SubscriptionModal';
 import { isUserPro } from './services/billingService';
 import { usePWAInstall } from './hooks/usePWAInstall';
@@ -65,14 +65,17 @@ export default function App() {
       return;
     }
     let active = true;
-    client.auth.getSession().then(({ data, error }) => {
+    client.auth.getSession().then(async ({ data, error }) => {
       if (!active) return;
       if (error || !data.session?.user) {
         setCurrentUser(null);
         setIsAuthOpen(true);
       } else {
-        setCurrentUser(profileFromSupabaseUser(data.session.user));
-        setIsAuthOpen(false);
+        const profile = await loadUserProfile(data.session.user);
+        if (active) {
+          setCurrentUser(profile);
+          setIsAuthOpen(false);
+        }
       }
     }).catch(() => {
       if (active) setIsAuthOpen(true);
@@ -83,8 +86,20 @@ export default function App() {
         setIsAuthOpen(false);
       }
       if (!active) return;
-      setCurrentUser(session?.user ? profileFromSupabaseUser(session.user) : null);
-      setIsAuthOpen(!session?.user);
+      if (!session?.user) {
+        setCurrentUser(null);
+        setIsAuthOpen(true);
+        return;
+      }
+      setIsAuthOpen(false);
+      // Load database entitlements outside the auth callback to avoid blocking token refresh.
+      window.setTimeout(() => {
+        void loadUserProfile(session.user).then((profile) => {
+          if (active) setCurrentUser(profile);
+        }).catch(() => {
+          if (active) setCurrentUser(null);
+        });
+      }, 0);
     });
     return () => {
       active = false;
