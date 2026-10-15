@@ -30,7 +30,7 @@ import { AdventistExegesisModal } from './components/AdventistExegesisModal';
 import { CanonicalAuditModal } from './components/CanonicalAuditModal';
 import { AuthModal } from './components/AuthModal';
 import { PasswordRecoveryModal } from './components/PasswordRecoveryModal';
-import { getSupabaseClient, loadUserProfile } from './services/authService';
+import { getSupabaseClient, loadUserProfile, signOutUser } from './services/authService';
 import { SubscriptionModal } from './components/SubscriptionModal';
 import { isUserPro } from './services/billingService';
 import { usePWAInstall } from './hooks/usePWAInstall';
@@ -297,6 +297,7 @@ export default function App() {
         onOpenExegesis={() => handleOpenExegesis()}
         onOpenSubscription={() => setIsSubscriptionOpen(true)}
         isPro={isUserPro(currentUser)}
+        onSignOut={() => { void signOutUser().catch(() => window.alert('Não foi possível encerrar a sessão. Tente novamente.')); }}
       />
 
       {/* Main Comparative Bible View */}
