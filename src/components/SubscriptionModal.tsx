@@ -82,15 +82,10 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   };
 
   const handleRestorePurchases = () => {
-    setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
-      if (userHasPro) {
-        setStatusMessage({ text: 'Suas compras ativas foram restauradas e verificadas no dispositivo.', isError: false });
-      } else {
-        setStatusMessage({ text: 'Nenhuma assinatura anterior encontrada para esta conta. Selecione um plano abaixo.', isError: true });
-      }
-    }, 700);
+    setStatusMessage({
+      text: 'A restauração automática de compras ainda não está integrada à Google Play. Nenhuma compra foi alterada; entre em contato com o suporte para verificar uma assinatura.',
+      isError: true
+    });
   };
 
   return (
