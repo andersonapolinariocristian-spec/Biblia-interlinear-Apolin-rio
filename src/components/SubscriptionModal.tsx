@@ -65,11 +65,13 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
     }
   };
 
-  const handleRedeemVoucher = (e: React.FormEvent) => {
+  const handleRedeemVoucher = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatusMessage(null);
 
-    const result = redeemVoucherCode(voucherCode, currentUser);
+    setIsProcessing(true);
+    const result = await redeemVoucherCode(voucherCode, currentUser);
+    setIsProcessing(false);
     if (result.success && result.updatedUser) {
       onUserUpdated(result.updatedUser);
       setVoucherCode('');
